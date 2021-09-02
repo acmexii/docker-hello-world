@@ -18,7 +18,6 @@ podTemplate(label: 'docker-build',
   ]
 ) {
     node('docker-build') { 
-    	def dockerHubCred = "ecr-cred"
         def appImage
         
         stage('Checkout'){
@@ -38,7 +37,7 @@ podTemplate(label: 'docker-build',
         stage('Push'){
             container('docker'){
                 script {
-                    docker.withRegistry("https://052937454741.dkr.ecr.eu-central-1.amazonaws.com/", dockerHubCred){
+                    docker.withRegistry("https://052937454741.dkr.ecr.eu-central-1.amazonaws.com/", "ecr:eu-central-1:ecr-cred"){
                         appImage.push("${env.BUILD_NUMBER}")
                         appImage.push("latest")
                     }
