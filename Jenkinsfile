@@ -26,14 +26,6 @@ podTemplate(label: 'docker-build',
             }
         }
         
-        stage('Build'){
-            container('docker'){
-                script {
-                    appImage = docker.build("052937454741.dkr.ecr.eu-central-1.amazonaws.com/node-hello-world")
-                }
-            }
-        }
-        
         stage('Test'){
             container('docker'){
                 script {
@@ -49,6 +41,7 @@ podTemplate(label: 'docker-build',
             container('docker'){
                 script {
                     docker.withRegistry('https://052937454741.dkr.ecr.eu-central-1.amazonaws.com/', 'ecr:eu-central-1:ecr-cred'){
+                        appImage = docker.build("052937454741.dkr.ecr.eu-central-1.amazonaws.com/node-hello-world")
                         appImage.push("${env.BUILD_NUMBER}")
                         appImage.push("latest")
                     }
