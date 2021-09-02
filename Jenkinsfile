@@ -18,7 +18,7 @@ podTemplate(label: 'docker-build',
   ]
 ) {
     node('docker-build') { 
-    	def dockerHubCred = "docker-cred"
+    	def dockerHubCred = "ecr-cred"
         def appImage
         
         stage('Checkout'){
@@ -30,7 +30,7 @@ podTemplate(label: 'docker-build',
         stage('Build'){
             container('docker'){
                 script {
-                    appImage = docker.build("apexacme/node-hello-world")
+                    appImage = docker.build("052937454741.dkr.ecr.eu-central-1.amazonaws.com/node-hello-world")
                 }
             }
         }
@@ -38,7 +38,7 @@ podTemplate(label: 'docker-build',
         stage('Push'){
             container('docker'){
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', dockerHubCred){
+                    docker.withRegistry("https://052937454741.dkr.ecr.eu-central-1.amazonaws.com/", dockerHubCred){
                         appImage.push("${env.BUILD_NUMBER}")
                         appImage.push("latest")
                     }
@@ -47,4 +47,3 @@ podTemplate(label: 'docker-build',
         }
     }    
 }
- 
