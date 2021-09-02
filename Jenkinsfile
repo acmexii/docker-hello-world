@@ -17,8 +17,7 @@ podTemplate(label: 'docker-build',
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'), 
   ]
 ) {
-    node('docker-build') {
-        def dockerHubCred = <your_dockerhub_cred>
+    node('docker-build') {        
         def appImage
         
         stage('Checkout'){
@@ -30,7 +29,7 @@ podTemplate(label: 'docker-build',
         stage('Build'){
             container('docker'){
                 script {
-                    appImage = docker.build("<your-dockerhub-id>/node-hello-world")
+                    appImage = docker.build("052937454741.dkr.ecr.eu-central-1.amazonaws.com/node-hello-world")
                 }
             }
         }
@@ -49,7 +48,7 @@ podTemplate(label: 'docker-build',
         stage('Push'){
             container('docker'){
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', dockerHubCred){
+                    docker.withRegistry('https://052937454741.dkr.ecr.eu-central-1.amazonaws.com/', ecr:eu-central-1:ecr-cred){
                         appImage.push("${env.BUILD_NUMBER}")
                         appImage.push("latest")
                     }
