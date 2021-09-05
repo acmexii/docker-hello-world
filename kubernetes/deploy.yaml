@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx
+  name: node-hello-world
   namespace: jenkins-ns
 spec:
   containers:
-  - name: nginx
-    image: nginx:1.7.9
+  - name: node-hello-world
+    image: 283210891307.dkr.ecr.ap-northeast-2.amazonaws.com/node-hello-world:${BUILD_NUMBER}
     ports:
     - containerPort: 80
