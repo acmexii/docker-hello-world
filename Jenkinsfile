@@ -47,7 +47,7 @@ podTemplate(label: 'docker-build',
       
         stage('Deploy'){
             container('git'){
-		kubernetesDeploy(// kubeconfigId: 'kube-cred', 
+		kubernetesDeploy(kubeconfigId: 'kube-cred', // REQUIRED
 	                 configs: '**/kubernetes/*.yaml',   // REQUIRED
 	                 enableConfigSubstitution: true,
 	            )
