@@ -29,7 +29,7 @@ podTemplate(label: 'docker-build',
         stage('Build'){
             container('docker'){
                 script {
-                    appImage = docker.build("052937454741.dkr.ecr.eu-central-1.amazonaws.com/node-hello-world")
+                    appImage = docker.build("283210891307.dkr.ecr.ap-northeast-2.amazonaws.com/node-hello-world")
                 }
             }
         }
@@ -37,7 +37,7 @@ podTemplate(label: 'docker-build',
         stage('Push'){
             container('docker'){
                 script {
-                    docker.withRegistry("https://052937454741.dkr.ecr.eu-central-1.amazonaws.com/", "ecr:eu-central-1:ecr-cred"){
+                    docker.withRegistry("https://283210891307.dkr.ecr.ap-northeast-2.amazonaws.com/", ""){
                         appImage.push("${env.BUILD_NUMBER}")
                         appImage.push("latest")
                     }
@@ -47,8 +47,8 @@ podTemplate(label: 'docker-build',
       
         stage('Deploy'){
             container('git'){
-		kubernetesDeploy(kubeconfigId: 'kube-cred', // REQUIRED
-	                 configs: '**/kubernetes/*.yaml', 		// REQUIRED
+		kubernetesDeploy(// kubeconfigId: 'kube-cred', 
+	                 configs: '**/kubernetes/*.yaml',   // REQUIRED
 	                 enableConfigSubstitution: true,
 	            )
             }
