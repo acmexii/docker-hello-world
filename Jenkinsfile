@@ -37,7 +37,7 @@ podTemplate(label: 'docker-build',
         stage('Push'){
             container('docker'){
                 script {
-                    docker.withRegistry("https://283210891307.dkr.ecr.ap-northeast-2.amazonaws.com/", ""){
+                    docker.withRegistry("https://283210891307.dkr.ecr.ap-northeast-2.amazonaws.com/", ecr:ap-northeast-2:ecr-cred){
                         appImage.push("${env.BUILD_NUMBER}")
                         appImage.push("latest")
                     }
