@@ -29,7 +29,7 @@ podTemplate(label: 'docker-build',
         stage('Build'){
             container('docker'){
                 script {
-                    appImage = docker.build("283210891307.dkr.ecr.ap-northeast-2.amazonaws.com/node-hello-world")
+                    appImage = docker.build("979050235289.dkr.ecr.ap-southeast-2.amazonaws.com/node-hello-world")
                 }
             }
         }
@@ -37,7 +37,7 @@ podTemplate(label: 'docker-build',
         stage('Push'){
             container('docker'){
                 script {
-                    docker.withRegistry("https://283210891307.dkr.ecr.ap-northeast-2.amazonaws.com/", "ecr:ap-northeast-2:ecr-cred"){
+                    docker.withRegistry("https://979050235289.dkr.ecr.ap-southeast-2.amazonaws.com/", "ecr:ap-southeast-2:ecr-cred"){
                         appImage.push("${env.BUILD_NUMBER}")
                         appImage.push("latest")
                     }
